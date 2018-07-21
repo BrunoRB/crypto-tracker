@@ -1,5 +1,5 @@
 'use strict';
 
-module.exports = Object.freeze({
+module.exports = {
 	MONEEDA_EXCHANGES: ['BNB', 'BTX', 'BFX']
-});
+};

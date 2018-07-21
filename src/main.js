@@ -17,7 +17,7 @@ process.on('unhandledRejection', (reason, p) => {
 
 var HttpServer = require('./modules/http-server');
 
-HttpServer(CONFS.port).then(function() {
+HttpServer(CONFS.SERVER_PORT).then(function() {
 	//
 }).catch(function(err) {
 	logger.error(err);

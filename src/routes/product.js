@@ -21,8 +21,9 @@ router.get('/api/products', async function(req, res, next) {
 		res.json(Array.from(data));
 	}
 	catch(e) {
-		logger.error(e);
+		debug(e);
 		res.status(404).send(e);
+		logger.error(e);
 	}
 });
 
@@ -52,15 +53,16 @@ router.get('/api/products/:product/prices', async function(req, res, next) {
 			return d;
 		});
 
-		if (Object.keys(data).length !== 3) {
+		if (Object.keys(data).length !== CONSTS.MONEEDA_EXCHANGES.length) {
 			throw 'Invalid key';
 		}
 
 		res.send(data);
 	}
 	catch(e) {
-		logger.error(e);
+		debug(e);
 		res.status(404).send(e);
+		logger.error(e);
 	}
 });
 

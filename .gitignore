@@ -3,7 +3,6 @@ node_modules/
 nohup.out
 npm-debug.log
 .DS_Store
-/dist
 .env.local
 .env.*.local
 npm-debug.log*

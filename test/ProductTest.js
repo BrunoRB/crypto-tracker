@@ -33,6 +33,33 @@ describe('Product tests', function() {
 		})
 	});
 
+	it('should return the intersected products 2', function() {
+		// 1 to 100
+		let exchange1 = new Array(100).fill(0).map((_, i) => {
+			return {id: i + 1}
+		});
+		// 100 to 199
+		let exchange2 = new Array(100).fill(0).map((_, i) => {
+			return {id: i + 100}
+		});
+		// 95 to 105
+		let exchange3 = new Array(10).fill(0).map((_, i) => {
+			return {id: i + 95}
+		});
+		// 1 to 200
+		let exchange4 = new Array(200).fill(0).map((_, i) => {
+			return {id: i + 1}
+		});
+
+		let intersection = Product.getIntersectedProducts(exchange1, exchange2, exchange3, exchange4);
+		let expected = [100];
+		expected.forEach((id) => {
+			assert.ok(intersection.has(id), id);
+		})
+	});
+
+	// what's returned from the API can vary with time,
+	// so this is only for debugging purposes
 	xit('should fetch products', async function() {
 		let pArr = CONSTS.MONEEDA_EXCHANGES.map(async exchange => {
 			return Util.fetchProducts(exchange);
@@ -43,6 +70,8 @@ describe('Product tests', function() {
 		console.log(data);
 	});
 
+	// what's returned from the API can vary with time,
+	// so this is only for debugging purposes
 	xit('should fetch a specific product', async function() {
 		let pArr = CONSTS.MONEEDA_EXCHANGES.map(async exchange => {
 			return Util.fetchProductPrice(exchange, 'ETH-SNT');

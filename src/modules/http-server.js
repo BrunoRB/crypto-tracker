@@ -21,8 +21,10 @@ module.exports = async function(HTTP_PORT = 8081) {
 	}));
 	app.use(require('compression')());
 
-	// app.use('', express.static(path.join(__dirname, '../../clientvue/www'), {'index': ['index.html']}));
-	// app.use('/test', express.static(path.join(__dirname, '../../clientvue'), {'index': ['index.html']}));
+	app.use(
+		'',
+		express.static(path.join(__dirname, '../../vueclient/dist/'))
+	);
 
 	app.use(function(req, res, next) {
 		res.header('Access-Control-Allow-Credentials', true);
@@ -48,7 +50,7 @@ module.exports = async function(HTTP_PORT = 8081) {
 			next();
 		}
 		else {
-		// return res.sendFile(path.join(__dirname, '../../clientvue/www/index.html'));
+			return res.sendFile(path.join(__dirname, '../../vueclient/dist/'));
 		}
 	});
 

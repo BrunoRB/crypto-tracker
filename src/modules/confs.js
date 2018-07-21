@@ -5,13 +5,15 @@ const path = require('path');
 
 let CONFS = {
 	isProduction: false,
-	MONEEDA_TOKEN: null
+	MONEEDA_TOKEN: null,
+	SERVER_HOST: 'http://localhost',
+	SERVER_PORT: 8081
 };
 
 let PROD_CONFS = {};
 
 try {
-	PROD_CONFS = require(path.join(__dirname, '/../prod-confs.json'));
+	PROD_CONFS = require('./../prod-confs.json');
 	debug('Found production confs', Object.keys(PROD_CONFS));
 }
 catch(e) {
@@ -36,4 +38,8 @@ debug(
 	`${token.substring(0, 4)}...${token.substring(token.length - 4)}`
 );
 
-module.exports = {...CONFS, ...PROD_CONFS};
+for (let k in PROD_CONFS) {
+	CONFS[k] = PROD_CONFS[k];
+}
+
+module.exports = CONFS;

@@ -11,8 +11,8 @@ module.exports = {
 			path: path,
 			port: 443,
 			headers:{
-            	Authorization: `Bearer ${CONFS.MONEEDA_TOKEN}`
-       		}
+				Authorization: `Bearer ${CONFS.MONEEDA_TOKEN}`
+			}
 		};
 
 		return new Promise((resolve, reject) => {

@@ -21,6 +21,8 @@
 	},
 	"globals": {
 		"CONFS": true,
+		"Util": true,
+		"CONSTS": true,
 		"logger": true
 	},
 	"plugins": [

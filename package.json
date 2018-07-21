@@ -11,6 +11,7 @@
 	"scripts": {
 		"dev": "DEBUG=ct-br:* ./node_modules/.bin/nodemon ./src/main.js",
 		"prod": "NODE_ENV=production ./node_modules/.bin/pm2 start ./src/main.js --name crypto-tracker-br",
+		"full": "cd ./vueclient && vue-cli-service build && cd .. && DEBUG=ct-br:* ./node_modules/.bin/nodemon ./src/main.js",
 		"serve": "cd ./vueclient && vue-cli-service serve",
 		"test": "./node_modules/.bin/mocha test/"
 	},
@@ -23,6 +24,7 @@
 		"vue": "^2.5.16",
 		"vue-router": "^3.0.1",
 		"vue-select": "^2.4.0",
+		"vue-spinner": "^1.0.3",
 		"winston": "2.4.*"
 	},
 	"devDependencies": {
