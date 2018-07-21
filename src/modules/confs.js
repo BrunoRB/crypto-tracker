@@ -17,7 +17,7 @@ try {
 	debug('Found production confs', Object.keys(PROD_CONFS));
 }
 catch(e) {
-	debug('Production confs not found at ./../prod-confs.json', e);
+	debug('Production confs not found at ./../prod-confs.json');
 }
 
 if (!PROD_CONFS.MONEEDA_TOKEN && !process.env.MONEEDA_TOKEN) {
