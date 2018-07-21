@@ -3,7 +3,6 @@
 var winston = require('winston'),
 	path = require('path'),
 	os = require('os'),
-	util = require('util'),
 	fs = require('fs');
 
 function isWritable(filename) {
@@ -22,11 +21,10 @@ function isWritable(filename) {
 	}
 }
 
-// #75910, log not writable can't kill the app
-var _logFilename = path.join(os.tmpdir(), 'multiselfie.js.log');
+var _logFilename = path.join(os.tmpdir(), 'crypto-tracker.js.log');
 let i = 0;
 while (!isWritable(_logFilename) && i < 100) {
-	_logFilename = path.join(os.tmpdir(), 'multiselfie.' + i + '.js.log');
+	_logFilename = path.join(os.tmpdir(), 'crypto-tracker.' + i + '.js.log');
 	i++;
 }
 
@@ -36,12 +34,6 @@ if (!isWritable(_logFilename)) { // fallback to console.
 	_transports = [new (winston.transports.Console)()];
 }
 else {
-//	_transports = PROD_CONFS.isProduction ?
-//		[new (winston.transports.File)({ timestamp: true, filename: _logFilename })] :
-//		[
-//			new (winston.transports.Console)({ timestamp: true }),
-//			new (winston.transports.File)({ timestamp: true, filename: _logFilename })
-//		];
 	_transports = [
 		new (winston.transports.Console)({ timestamp: true }),
 		new (winston.transports.File)({ timestamp: true, filename: _logFilename })
@@ -73,10 +65,6 @@ var logger = {
 	},
 
 	_log: function(level, ...data) {
-		if (!util.isArray(data)) {
-			data = [data];
-		}
-
 		data.forEach(function(d) {
 			_log.log(level, d);
 		});
