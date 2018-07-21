@@ -1,6 +1,7 @@
 'use strict';
 
 const https = require('https');
+const debug = require('debug')('ct-br:util');
 
 module.exports = {
 
@@ -16,30 +17,35 @@ module.exports = {
 
 		return new Promise((resolve, reject) => {
 			https.get(opts, function(response) {
-				if (response.statusCode === 200) {
-					let body = '';
-					response.on('data', function(d) {
-						body += d;
-					});
+				let body = '';
+				response.on('data', function(d) {
+					body += d;
+				});
 
-					response.on('end', function() {
-						try {
+				response.on('end', function() {
+					try {
+						if (response.statusCode === 200) {
 							resolve(JSON.parse(body));
 						}
-						catch(e) {
-							reject(e);
+						else {
+							reject(JSON.parse(body));
 						}
-					});
-				}
-				else {
-					// TODO message
-					reject(response.statusCode);
-				}
+					}
+					catch(e) {
+						reject(e);
+					}
+				});
 			}).on('error', reject).end();
 		});
 	},
 
 	fetchProducts: function(exchange) {
+		debug('Fetching', `/api/exchanges/${exchange}/products`);
 		return this._moonedaFetch(`/api/exchanges/${exchange}/products`);
+	},
+
+	fetchProductPrice: function(exchange, prod) {
+		debug('Fetching', `/api/exchanges/${exchange}/ticker?product=${prod}`);
+		return this._moonedaFetch(`/api/exchanges/${exchange}/ticker?product=${prod}`);
 	}
 };

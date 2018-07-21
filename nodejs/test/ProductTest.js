@@ -7,6 +7,7 @@ require(path.join(__dirname, '/../src/modules/globals.js'));
 const Product = require(path.join(__dirname, '/../src/modules/product.js'));
 
 describe('Product tests', function() {
+	this.timeout(5000);
 
 	/**
 	 * If BTX hadproducts [A, B, C, D]; BNB had products [B, C, D, E];
@@ -40,5 +41,16 @@ describe('Product tests', function() {
 
 		let data = Product.getIntersectedProducts(...prodsLists);
 		console.log(data);
+	});
+
+	xit('should fetch a specific product', async function() {
+		let pArr = CONSTS.MONEEDA_EXCHANGES.map(async exchange => {
+			return Util.fetchProductPrice(exchange, 'ETH-SNT');
+		});
+		let prods = await Promise.all(pArr);
+
+		console.log(prods);
+
+		assert.ok(true);
 	});
 });

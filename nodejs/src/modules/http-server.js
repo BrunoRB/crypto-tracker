@@ -1,7 +1,7 @@
 /*eslint no-console: ["error", { allow: ["warn", "error", "info"] }] */
 'use strict';
 
-module.exports = async function(HTTP_PORT = 8080) {
+module.exports = async function(HTTP_PORT = 8081) {
 	const debug = require('debug')('ct-br:http-server');
 	const fs = require('fs');
 	const path = require('path');
@@ -20,8 +20,6 @@ module.exports = async function(HTTP_PORT = 8080) {
 		extended: true
 	}));
 	app.use(require('compression')());
-	app.use(require('cookie-parser')());
-	app.set('view engine', 'html');
 
 	// app.use('', express.static(path.join(__dirname, '../../clientvue/www'), {'index': ['index.html']}));
 	// app.use('/test', express.static(path.join(__dirname, '../../clientvue'), {'index': ['index.html']}));

@@ -1,82 +1,130 @@
 <template>
 	<div id="products">
 		<h1>Welcome to yet another Crypto Tracker 😃</h1>
-		<v-select label="name" :filterable="false" :options="options" @search="onSearch">
-			<template slot="no-options">
-				type to search GitHub repositories..
-			</template>
-			<template slot="option" slot-scope="option">
-				<div class="d-center">
-				<img :src='option.owner.avatar_url'/>
-				{{ option.full_name }}
-				</div>
-			</template>
-			<template slot="selected-option" slot-scope="option">
-				<div class="selected d-center">
-				<img :src='option.owner.avatar_url'/>
-				{{ option.full_name }}
-				</div>
-			</template>
+
+		<v-select :options="options"
+			:on-change="onChange" v-model="selected">
 		</v-select>
 
-		<ul v-if="posts && posts.length">
-			<li v-for="post of posts" v-bind:key="post.svn_url">
-				<p><strong>{{post.svn_url}}</strong></p>
+		<div v-if="products && Object.keys(products).length">
+			<div v-for="product of products" v-bind:key="product.exchange"
+				class="card" :class="{
+					'lower': product.isLower,
+					'higher': product.isHigher
+				}">
+
+				<div class="container">
+					<p><strong>{{product.exchange}}</strong></p>
+					<p class="price"><em>{{product.price}}</em></p>
+				</div>
+			</div>
+		</div>
+
+		<ul id="errors" v-if="errors && errors.length">
+			<li v-for="err in errors" v-bind:key="err">
+				{{err}}
 			</li>
 		</ul>
 	</div>
-
 </template>
 
 <script>
 
 import axios from 'axios';
 
-let _t = null;
-let _lock = false;
 export default {
   name: 'Products',
 	props: {},
 	data: () => {
 		return {
-			posts: [],
-			options: []
+			options: [],
+			selected: null,
+			products: [],
+			errors: []
 		};
 	},
+
+	mounted() {
+		this.errors = [];
+
+		if (this.$route.params.options) {
+			this.options = this.$route.params.options;
+		}
+		else {
+			this.getAll('', () => {});
+		}
+
+		if (!this.$route.params.product) {
+			this.products = [];
+		}
+		else {
+			this.selected = this.$route.params.product;
+			this.getProduct(this.$route.params.product);
+		}
+	},
+
 	methods: {
-		onSearch(search, loading) {
-			if (!_t) {
-				this.search(search, loading);
-			}
-			else {
-				window.clearTimeout(_t);
-				_t = setTimeout(() => {
-					this.search(search, loading);
-				}, 350);
-			}
-		},
-
-		search(search, loading) {
-			if (_lock) {
-				return;
-			}
-
+		getAll(search, loading) {
 			loading(true);
-			_lock = true;
-			axios.get(`https://api.github.com/search/repositories?q=${escape(search)}`)
-			.then(response => {
-				console.log(response.data.items);
-				this.posts = response.data.items;
-				_lock = false;
+			axios.get(`http://localhost:8081/api/products`).then(response => {
+				this.options = response.data;
 				loading(false);
 			}).catch(e => {
-				alert(e); // TODO
-				_lock = false;
+				this.errors.push(e.statusText);
 				loading(false);
 			});
+		},
+
+		getProduct(prod) {
+			axios.get(`http://localhost:8081/api/products/${prod}/prices`).then(response => {
+				this.products = response.data;
+			}).catch(e => {
+				console.error(e)
+				this.errors.push(`${prod} fetch failed`);
+			});
+		},
+
+		onChange(val) {
+			if (val) {
+				this.$router.push({
+					name: 'Product',
+					params: {
+						product: val,
+						options: this.options
+					}
+				});
+			}
+			else {
+
+			}
 		}
 	}
 }
 </script>
 <style scoped>
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+	width: 30%;
+	display: inline-block;
+	font-size: x-large;
+	margin: 1%;
+}
+
+@media screen and (max-width: 768px) {
+	.card {
+		width: 100%;
+	}
+}
+
+.higher .price {
+	color: green;
+}
+.lower .price {
+	color: red;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
 </style>
