@@ -1,0 +1,49 @@
+{
+	"name": "crypto-tracker-br",
+	"version": "1.0.0",
+	"private": true,
+	"main": "main.js",
+	"author": "Bruno Roberto Búrigo",
+	"engines": {
+		"node" : ">=8.0.0"
+	},
+	"license": "MIT",
+	"scripts": {
+		"dev": "DEBUG=ct-br:* ./node_modules/.bin/nodemon ./src/main.js",
+		"prod": "NODE_ENV=production ./node_modules/.bin/pm2 start ./src/main.js --name crypto-tracker-br",
+		"serve": "cd ./vueclient && vue-cli-service serve"
+	},
+	"dependencies": {
+		"body-parser": "1.18.*",
+		"compression": "1.7.*",
+		"cookie-parser": "1.4.*",
+		"debug": "latest",
+		"express": "4.16.*",
+		"winston": "2.4.*",
+
+		"axios": "^0.18.0",
+		"vue": "^2.5.16",
+		"vue-router": "^3.0.1",
+		"vue-select": "^2.4.0"
+	},
+	"devDependencies": {
+		"eslint": "latest",
+		"eslint-plugin-promise": "latest",
+		"faker": "latest",
+		"mocha": "latest",
+		"mochawesome": "^3.0.2",
+		"nodemon": "latest",
+		"pm2": "^3.0.0",
+
+		"@vue/cli-plugin-babel": "^3.0.0-rc.5",
+		"@vue/cli-plugin-eslint": "^3.0.0-rc.5",
+		"@vue/cli-service": "^3.0.0-rc.5",
+		"vue-template-compiler": "^2.5.16"
+	},
+
+	"browserslist": [
+		"> 1%",
+		"last 2 versions",
+		"not ie <= 8"
+	  ]
+}

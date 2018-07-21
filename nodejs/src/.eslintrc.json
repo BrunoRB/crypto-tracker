@@ -1,0 +1,34 @@
+{
+	"parserOptions": {
+		"ecmaVersion": 2017
+	},
+	"extends": "eslint:recommended",
+	"rules": {
+		"no-console": 1,
+		"no-unused-vars": 0,
+		"radix": [2, "always"],
+		"block-scoped-var": 2,
+		"consistent-return": 2,
+		"curly": 2,
+		"no-return-assign": 2,
+		"no-void": 2,
+		"no-with": 2,
+		"no-shadow": 2,
+		"no-useless-escape": 0,
+		"promise/catch-or-return": "error",
+		"indent": ["error", "tab", { "ignoreComments": true }],
+		"no-multiple-empty-lines": ["error", { "max": 1}]
+	},
+	"globals": {
+		"CONFS": true,
+		"logger": true
+	},
+	"plugins": [
+		"promise"
+	],
+	"env": {
+		"node": true,
+		"es6": true
+	},
+	"root": true
+}
