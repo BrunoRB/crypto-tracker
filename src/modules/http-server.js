@@ -14,7 +14,6 @@ module.exports = async function(HTTP_PORT = 8081) {
 
 	app.disable('x-powered-by');
 
-	// deal with POST requests
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({
 		extended: true
@@ -54,16 +53,6 @@ module.exports = async function(HTTP_PORT = 8081) {
 		}
 	});
 
-	/*
-	 * PROCESS STUFF
-	 */
-	process.on('restart', function (restartCallback, newExitCode) {
-		// do whatever you want before application's crash
-		// and when you're done - call the callback to restart the process
-		console.info("Restarting");
-		restartCallback(0);
-	});
-
 	process.on('uncaughtException', function(err) {
 		var separator = new Array(80).join('=');
 		const logger = require('./logger');
@@ -90,11 +79,7 @@ module.exports = async function(HTTP_PORT = 8081) {
 	app.use(async function(err, req, res, next) {
 		const logger = require('./logger');
 		logger.error(err);
-		var estr = JSON.stringify(err);
-		res.status(400).send(
-			(!CONFS.isProduction || await req.isAdmin()) && estr && estr !== '{}' ?
-				JSON.stringify(err) : 'Something bad happened :('
-		);
+		res.status(400).send('Something bad happened :(');
 	});
 
 	await new Promise((resolve) => {

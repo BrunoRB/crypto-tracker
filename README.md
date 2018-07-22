@@ -17,7 +17,7 @@ or
 
 `MONEEDA_TOKEN=[full_token] npm run dev`
 
-The app will be available at the `http://localhost:8081` address.
+The app will the available at the `http://localhost:8081` address.
 
 example:
 
