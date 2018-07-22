@@ -7,7 +7,7 @@ Simple crypto tracker that uses the Moneeda API.
 
 Node.js >= 8.0.0 and NPM or YARN.
 
-First __install de dependencies__ with `yarn install` or `npm install`.
+First __install the dependencies__ with `yarn install` or `npm install`.
 
 Then to "just run" the app use:
 
@@ -17,7 +17,7 @@ or
 
 `MONEEDA_TOKEN=[full_token] npm run dev`
 
-The app will the available at the `http://localhost:8081` address.
+The app will be available at the `http://localhost:8081` address.
 
 example:
 
